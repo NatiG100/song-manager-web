@@ -1,4 +1,11 @@
 import React from 'react';
-export default function Layout({children}:{children?:any}){
-    return<div><div>layout</div>{children}</div>
+import Navbar from './navbar/Navbar.tsx';
+import { Outlet } from 'react-router-dom';
+export default function Layout(){
+    return(
+        <div>
+            <Navbar/>
+            <Outlet/>
+        </div>
+    );
 }
