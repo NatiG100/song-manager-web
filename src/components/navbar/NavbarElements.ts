@@ -3,18 +3,19 @@ import styled from "styled-components";
 
 export const NavbarMain = styled.nav`
     width: 100%;
-    padding: 15px 80px;
-    background-color: #FaFaFa;
+    padding: 10px 80px;
+    background-color: white;
     box-sizing: border-box;
     border-bottom: #EAEAEA 1px solid;
 `;
 
 export const NavbarWrapper = styled.div`
     width:100%;
-    max-width: 4000;
+    max-width: 1240px;
     margin-left: auto;
     margin-right: auto;
     display:flex;
+    gap: 35px;
     justify-content: start;
     align-items: center;
     box-sizing: border-box;
