@@ -1,7 +1,19 @@
 import styled from "styled-components";
 
+export const SongList = styled.div`
+    display: grid;
+    grid-template-columns: 1fr;
+    @media only screen and (min-width: 768px){
+        grid-template-columns: 1fr 1fr ;
+    }
+    @media only screen and (min-width: 1224px){
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+    gap:15px;
+`;
+
 export const SongMain = styled.div`
-    padding: 20px;
+    padding: 10px 20px;
     border-radius: 5px;
     border:#Eaeaea 1px solid;
     background-color: white;
@@ -27,7 +39,7 @@ export const SongContent = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin: 20px 0px;
+    margin: 10px 0px;
 `;
 export const SongInfoWithIcon = styled.div`
     display: flex;

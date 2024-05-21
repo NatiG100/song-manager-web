@@ -1,8 +1,9 @@
 import React from 'react'
-import Song from '../components/song/Song.tsx';
+import Song from './../components/song/Song.tsx';
+import { SongList } from './../components/song/SongElements.ts';
 export default function Songs(){
     return (
-        <div>
+        <SongList>
             <Song
                 _id='asdfasddfa'
                 album='Gravity'
@@ -35,6 +36,6 @@ export default function Songs(){
                 genre='Hip Hop'
                 title='Gravity'
             />
-        </div>
+        </SongList>
     );
 };
