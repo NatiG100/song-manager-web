@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import Song from './../components/song/Song.tsx';
 import { SongList } from './../components/song/SongElements.ts';
+import Surface from '../components/Surface/index.tsx';
 export default function Songs(){
+    const [isEditModalOpen,setIsEditModalOpen] = useState<boolean>(true);
+    const closeEditModal = useCallback(()=>{
+        setIsEditModalOpen(false);
+    },[])
     return (
         <SongList>
+            
             <Song
                 _id='asdfasddfa'
                 album='Gravity'
@@ -39,3 +45,7 @@ export default function Songs(){
         </SongList>
     );
 };
+
+
+// export 
+// export function EditModal({})
