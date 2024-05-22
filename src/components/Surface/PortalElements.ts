@@ -20,7 +20,7 @@ export const SurfaceContent = styled.div`
     height: 100%;
     width: 100%;
     max-width: 400px;
-    background: #fff;
+    background: #fafafa;
     border-left: 1px solid #99aacc;
     padding: 20px;
 `;

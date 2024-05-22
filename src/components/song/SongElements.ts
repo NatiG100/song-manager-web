@@ -1,8 +1,18 @@
 import styled from "styled-components";
 
+export const FilterInputList = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr ;
+    @media only screen and (min-width: 768px){
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+    gap:0px;
+    column-gap: 20px;
+`;
 export const SongList = styled.div`
     display: grid;
     grid-template-columns: 1fr;
+    margin-top: 25px;
     @media only screen and (min-width: 768px){
         grid-template-columns: 1fr 1fr ;
     }
@@ -16,6 +26,8 @@ export const SongMain = styled.div`
     padding: 10px 20px;
     border-radius: 5px;
     border:#Eaeaea 1px solid;
+    box-shadow: 0px 2px 3px #0001;
+
     background-color: white;
     transition: all 300ms ease-in-out;
     cursor: pointer;

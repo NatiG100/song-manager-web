@@ -5,9 +5,9 @@ import Album from './../../assets/svg/album.svg';
 import Artist from './../../assets/svg/artist.svg';
 import Delete from './../../assets/svg/delete.svg';
 import { GhostButton } from '../ui/Button.ts';
-export default function Song(song:SongT){
+export default function Song(song:SongT&{onClick?:()=>void}){
     return(
-        <SongMain>
+        <SongMain onClick={song.onClick}>
             <SongHeader>
                 <div>
                     <SongTitle>{song.title}</SongTitle>

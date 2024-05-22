@@ -1,6 +1,16 @@
 import styled from "styled-components";
 
 export const Button = styled.button`
+    margin: 6px 0px;
+    margin-right: 10px;
+    padding: 10px;
+    border: 1px solid #0002;
+    background-color: #2001;
+    transition: all 300ms ease-in-out;
+    cursor: pointer;
+    &:hover{
+        background-color: #2002;
+    }
 
 `;
 
