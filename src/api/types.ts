@@ -15,6 +15,16 @@ export interface TSong{
     createdAt:Date,
     updatedAt:Date,
 }
+export interface TGeneralStat{
+    totalSongs:number,
+    totalArtists:number,
+    totalAlbums:number,
+    totalGenres:number,
+    songsInGenre:{_id:string,total:number}[],
+    songsInAlbum:{_id:string,total:number}[],
+    songsByArtist:{_id:string,total:number}[],
+    albumsByArtist:{_id:string,total:number}[],
+}
 
 export interface TGroupedStatItem{
     _id:string,
