@@ -15,9 +15,18 @@ export const songSlice = createSlice({
     name:SONG,
     initialState:initialSongsState,
     reducers:{
-        fetchSongsAction:(state:SongsStateType,{}:PayloadAction<{pagination:TPagination}>)=>{
+        fetchSongsAction:(state:SongsStateType)=>{
             state.songs.isLoading = true;
             state.songs.error = null;
+        },
+        fetchMoreSongsAction:(state:SongsStateType)=>{
+            state.songs.error = null;
+        },
+        fetchMoreSongsSuccessAtion:(state:SongsStateType,{payload:songs}:PayloadAction<{items:TSong[],count:number}>)=>{
+            state.songs.data = [...state.songs.data||[],...songs.items]
+            state.songs.error = null;
+            state.songs.count = songs.count;
+            state.songs.isLoading = false;
         },
         fetchSongSuccesAction:(state:SongsStateType,{payload:songs}:PayloadAction<{items:TSong[],count:number}>)=>{
             state.songs.data = songs.items;
@@ -30,15 +39,15 @@ export const songSlice = createSlice({
             state.songs.isLoading = false;
             state.songs.data = null;
         },
-        createSongAction:(state:SongsStateType, {payload:song}:PayloadAction<TSong>)=>{
+        createSongAction:(state:SongsStateType, {payload:song}:PayloadAction<TCreateSong>)=>{
             state.songs.isLoading = true;
             state.songs.error= null;
         },
-        updateSongAction:(state:SongsStateType, {payload:song}:PayloadAction<TSong>)=>{
+        updateSongAction:(state:SongsStateType, {payload:song}:PayloadAction<{id:string,song:TUpdateSong}>)=>{
             state.songs.isLoading = true;
             state.songs.error= null;
         },
-        deleteSongAction:(state:SongsStateType, {payload:song}:PayloadAction<TSong>)=>{
+        deleteSongAction:(state:SongsStateType, {payload:song}:PayloadAction<{id:string}>)=>{
             state.songs.isLoading = true;
             state.songs.error= null;
         }

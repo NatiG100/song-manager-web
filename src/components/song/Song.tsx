@@ -5,7 +5,10 @@ import Album from './../../assets/svg/album.svg';
 import Artist from './../../assets/svg/artist.svg';
 import Delete from './../../assets/svg/delete.svg';
 import { GhostButton } from '../ui/Button.ts';
+import { useDispatch } from 'react-redux';
+import { deleteSongAction } from '../../context/song/slice.ts';
 export default function Song(song:SongT&{onClick?:()=>void}){
+    const dispatch = useDispatch();
     return(
         <SongMain onClick={song.onClick}>
             <SongHeader>
@@ -13,7 +16,10 @@ export default function Song(song:SongT&{onClick?:()=>void}){
                     <SongTitle>{song.title}</SongTitle>
                     <p style={{fontSize:"12px",color:"#656566",fontWeight:"bold"}}>{song.genre}</p>
                 </div>
-                <GhostButton>
+                <GhostButton onClick={(e)=>{
+                    e.stopPropagation();
+                    dispatch(deleteSongAction({id:song._id}));
+                }}>
                     <img src={Delete} height={20} width={20}/>
                 </GhostButton>
             </SongHeader>

@@ -6,8 +6,9 @@ import { Input } from '../components/ui/Input.ts';
 import { SongT } from '../../types/entities.ts';
 import { Button } from '../components/ui/Button.ts';
 import { useLocation, useNavigate, useNavigation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { StateType } from '../context/reducer.ts';
+import { createSongAction } from '../context/song/slice.ts';
 export default function Songs(){
     const {isLoading,data,count,error} = useSelector((state:StateType)=>state.songs.songs);
     const [isFormModalOpen,setIsFormModalOpen] = useState<boolean>(true);
@@ -63,6 +64,15 @@ export interface EditModalProps{
     isEdit:boolean,
 }
 export function FormModal({isOpen,onClose,isEdit}:EditModalProps){
+    const dispatch = useDispatch();
+    function createSong(){
+        dispatch(createSongAction({
+            album:song.album,
+            artist:song.artist,
+            genre:song.genre,
+            title:song.title,
+        }));
+    }
     const [song,setSong] = useState<SongT>(
         {
             _id:'',
@@ -131,7 +141,11 @@ export function FormModal({isOpen,onClose,isEdit}:EditModalProps){
                     value={song.genre} 
                     onChange={(event)=>{changeSongInfo("genre",event.currentTarget.value)}}
                 />
-                <Button type='submit'>{isEdit?"Save Changes":"Add Song"}</Button> 
+                <Button 
+                    onClick={isEdit?()=>{}:createSong}    
+                >
+                    {isEdit?"Save Changes":"Add Song"}
+                </Button> 
                 <Button onClick={onClose}>Cancel</Button> 
             </form>
         </Surface>

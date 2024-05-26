@@ -1,5 +1,5 @@
 import { fork,all } from "redux-saga/effects"
-import { watchCreateSong, watchDeleteSong, watchFetchSongs, watchUpdateSong } from "./song/sagas.ts"
+import { flow, watchCreateSong, watchDeleteSong, watchFetchSongs, watchUpdateSong } from "./song/sagas.ts"
 
 const saga = function*(){
     yield all([
@@ -7,6 +7,7 @@ const saga = function*(){
         fork(watchCreateSong),
         fork(watchUpdateSong),
         fork(watchDeleteSong),
+        fork(flow),
     ]);
 }
 
