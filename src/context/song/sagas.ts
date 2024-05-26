@@ -1,9 +1,9 @@
 import songManagerApi from "../../songManagerApi.ts";
-import { TCreateSong, TErrorRes, TListResponse, TResponse, TSong, TUpdateSong } from "../../api/types.ts";
+import { TCreateSong, TErrorRes, TListResponse, TPagination, TResponse, TSong, TSongFilter, TUpdateSong } from "../../api/types.ts";
 import { put, takeLatest} from 'redux-saga/effects'
 import { fetchSongErrorAction, fetchSongSuccesAction } from "./slice.ts";
 import { AxiosResponse } from "axios";
-import { CREATE_SONG, DELETE_SONG, FETCH_SONGS, UPDATE_SONG } from "./types.ts";
+import { CREATE_SONG, DELETE_SONG, FETCH_MORE_SONGS, FETCH_SONGS, UPDATE_SONG } from "./types.ts";
 import { PayloadAction } from "@reduxjs/toolkit";
 
 function* fetchSongsSaga(){
@@ -17,6 +17,19 @@ function* fetchSongsSaga(){
 
 export function* watchFetchSongs(){
     yield takeLatest(FETCH_SONGS, fetchSongsSaga);
+}
+
+function* fetchMoreSongsSaga({payload:options}:PayloadAction<{pagination:TPagination,filter?:TSongFilter}>){
+    try{
+        const response:AxiosResponse<TListResponse<TSong>,TErrorRes> = yield songManagerApi.song.fetchMany(options);
+        yield put(fetchSongSuccesAction(response.data.data));
+    }catch(err:any){
+        yield put(fetchSongErrorAction(err))
+    }
+}
+
+export function* watchFetchMoreSongs(){
+    yield takeLatest(FETCH_MORE_SONGS, fetchMoreSongsSaga);
 }
 
 export function* createSongSaga({payload:song}:PayloadAction<TCreateSong>){

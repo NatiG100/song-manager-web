@@ -1,5 +1,5 @@
 import Resource from "./Resource.ts";
-import { TCreateSong, TErrorRes, TListResponse, TPagination, TResponse, TSong, TUpdateSong } from "./types.ts";
+import { TCreateSong, TErrorRes, TListResponse, TPagination, TResponse, TSong, TSongFilter, TUpdateSong } from "./types.ts";
 import axiosClient from "./axiosClient.ts";
 
 export default class Song extends Resource{
@@ -8,9 +8,18 @@ export default class Song extends Resource{
             `${this.path}/${id}`
         );
     }
-    async fetchMany({pagination}:{pagination:TPagination}){
+    filter(key:string,filter?:string):string{
+        const f =  filter?("&"+key+"="+filter):"";
+        return f;
+    }
+    async fetchMany({pagination,filter}:{pagination:TPagination,filter?:TSongFilter}){
+        console.log(filter);
         return axiosClient.get<TErrorRes,TListResponse<TSong>>(
-            `${this.path}?skip=${pagination.skip}&limit=${pagination.limit}`
+            `${this.path}?skip=${pagination.skip}&limit=${pagination.limit}`+
+            `${this.filter("title",filter?.title)}`+
+            `${this.filter("artist",filter?.artist)}`+
+            `${this.filter("album",filter?.album)}`+
+            `${this.filter("genre",filter?.genre)}`
         );
     }
     async create({song}:{song:TCreateSong}){

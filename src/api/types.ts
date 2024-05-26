@@ -15,6 +15,7 @@ export interface TSong{
     createdAt:Date,
     updatedAt:Date,
 }
+export type TSongFilter = Pick<TSong,"album"|"artist"|"genre"|"title">;
 export interface TGeneralStat{
     totalSongs:number,
     totalArtists:number,

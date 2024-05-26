@@ -1,4 +1,4 @@
-import { TCreateSong, TErrorRes, TPagination, TSong, TUpdateSong } from "../../api/types";
+import { TCreateSong, TErrorRes, TPagination, TSong, TSongFilter, TUpdateSong } from "../../api/types";
 import { SONG, SongsStateType } from "./types.ts";
 import {PayloadAction, createSlice} from '@reduxjs/toolkit'
 
@@ -19,7 +19,7 @@ export const songSlice = createSlice({
             state.songs.isLoading = true;
             state.songs.error = null;
         },
-        fetchMoreSongsAction:(state:SongsStateType)=>{
+        fetchMoreSongsAction:(state:SongsStateType,{payload}:PayloadAction<{pagination:TPagination,filter?:TSongFilter}>)=>{
             state.songs.error = null;
         },
         fetchMoreSongsSuccessAtion:(state:SongsStateType,{payload:songs}:PayloadAction<{items:TSong[],count:number}>)=>{
@@ -56,6 +56,7 @@ export const songSlice = createSlice({
 
 export const {
     fetchSongsAction,
+    fetchMoreSongsAction,
     fetchSongErrorAction,
     fetchSongSuccesAction,
     createSongAction,

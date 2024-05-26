@@ -8,7 +8,8 @@ import { Button } from '../components/ui/Button.ts';
 import { useLocation, useNavigate, useNavigation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { StateType } from '../context/reducer.ts';
-import { createSongAction } from '../context/song/slice.ts';
+import { createSongAction, fetchMoreSongsAction, fetchSongsAction } from '../context/song/slice.ts';
+import { useDebounce } from 'use-debounce';
 export default function Songs(){
     const {isLoading,data,count,error} = useSelector((state:StateType)=>state.songs.songs);
     const [isFormModalOpen,setIsFormModalOpen] = useState<boolean>(true);
@@ -24,7 +25,32 @@ export default function Songs(){
     }
     const closeFormModal = useCallback(()=>{
         setIsFormModalOpen(false);
-    },[])
+    },[]);
+    const dispatch = useDispatch();
+    const [title,setTitle] = useState<string>("");
+    const [debauncedTitle] = useDebounce(title,500);
+    const [genre,setGenre] = useState<string>("")
+    const [debauncedGenre] = useDebounce(genre,500);
+    const [album,setAlbum] = useState<string>("");
+    const [debauncedAlbum] = useDebounce(album,500);
+    const [artist,setArtist] = useState<string>("");
+    const [debauncedArtist] = useDebounce(artist,500);
+    useEffect(()=>{
+        if(dispatch){
+            dispatch(fetchMoreSongsAction(
+                {
+                    pagination:{skip:0,limit:10},
+                    filter:{
+                        title:debauncedTitle,
+                        album:debauncedAlbum,
+                        artist:debauncedArtist,
+                        genre:debauncedGenre
+                    }
+                }
+            ));
+        }
+    },[debauncedAlbum,debauncedArtist,debauncedGenre,debauncedTitle,dispatch])
+    
     if(isLoading) return <p>Loadin</p>
     return (
         <>
@@ -32,10 +58,26 @@ export default function Songs(){
                 onClick={()=>{setIsEdit(false);setIsFormModalOpen(true)}}
             >Add New Song</Button>
             <FilterInputList>
-                <Input placeholder='filter by title'/>
-                <Input placeholder='filter by album'/>
-                <Input placeholder='filter by artist'/>
-                <Input placeholder='filter by genre'/>
+                <Input 
+                    placeholder='filter by title'
+                    value={title}
+                    onChange={(e)=>{setTitle(e.currentTarget.value)}}
+                />
+                <Input 
+                    placeholder='filter by album'
+                    value={album}
+                    onChange={(e)=>{setAlbum(e.currentTarget.value)}}
+                />
+                <Input 
+                    placeholder='filter by artist'
+                    value={artist}
+                    onChange={(e)=>{setArtist(e.currentTarget.value)}}
+                />
+                <Input 
+                    placeholder='filter by genre'
+                    value={genre}
+                    onChange={(e)=>{setGenre(e.currentTarget.value)}}
+                />
             </FilterInputList>
             <SongList>
                 <FormModal onClose={closeFormModal} isOpen={isFormModalOpen} isEdit={isEdit}/>
