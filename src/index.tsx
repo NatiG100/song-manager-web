@@ -6,6 +6,8 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Dashboard from './pages/Dashboard.tsx';
 import Songs from './pages/Songs.tsx';
 import Layout from './components/Layout.tsx';
+import { Provider } from 'react-redux';
+import store from './context/index.ts';
 // import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root')!);
@@ -29,7 +31,11 @@ const router = createBrowserRouter([
 )
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router}/>
+    <Provider store={store}>
+      <App>
+        <RouterProvider router={router}/>
+      </App>
+    </Provider>
   </React.StrictMode>
 );
 

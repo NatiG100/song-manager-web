@@ -1,4 +1,4 @@
-import SongManagerApi from "./src/api";
+import SongManagerApi from "./api/index.ts";
 
 const songManagerApi = new SongManagerApi();
 export default songManagerApi;

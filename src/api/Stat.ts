@@ -1,6 +1,6 @@
-import Resource from "./Resource";
-import axiosClient from "./axiosClient";
-import { TErrorRes, TResponse, TStat } from "./types";
+import Resource from "./Resource.ts";
+import axiosClient from "./axiosClient.ts";
+import { TErrorRes, TResponse, TStat } from "./types.ts";
 
 export default class Stat extends Resource{
     async generalStat({id}:{id:string}){

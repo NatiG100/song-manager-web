@@ -6,7 +6,10 @@ import { Input } from '../components/ui/Input.ts';
 import { SongT } from '../../types/entities.ts';
 import { Button } from '../components/ui/Button.ts';
 import { useLocation, useNavigate, useNavigation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { StateType } from '../context/reducer.ts';
 export default function Songs(){
+    const {isLoading,data,count,error} = useSelector((state:StateType)=>state.songs.songs);
     const [isFormModalOpen,setIsFormModalOpen] = useState<boolean>(true);
     const [isEdit,setIsEdit] = useState<boolean>(true);
     const navigate = useNavigate();
@@ -21,6 +24,7 @@ export default function Songs(){
     const closeFormModal = useCallback(()=>{
         setIsFormModalOpen(false);
     },[])
+    if(isLoading) return <p>Loadin</p>
     return (
         <>
             <Button
@@ -34,42 +38,19 @@ export default function Songs(){
             </FilterInputList>
             <SongList>
                 <FormModal onClose={closeFormModal} isOpen={isFormModalOpen} isEdit={isEdit}/>
-                <Song
-                    _id='asdfasddfa'
-                    album='Gravity'
-                    artist='Lecrea'
-                    createdAt={new Date()}
-                    genre='Hip Hop'
-                    title='Gravity'
-                    onClick={()=>{handleSongOpen("asdfasddfa")}}
-                />
-                <Song
-                    _id='asdfasddfa'
-                    album='Gravity'
-                    artist='Lecrea'
-                    createdAt={new Date()}
-                    genre='Hip Hop'
-                    title='Gravity'
-                    onClick={()=>{handleSongOpen("asdfasddfa")}}
-                />
-                <Song
-                    _id='asdfasddfa'
-                    album='Gravity'
-                    artist='Lecrea'
-                    createdAt={new Date()}
-                    genre='Hip Hop'
-                    title='Gravity'
-                    onClick={()=>{handleSongOpen("asdfasddfa")}}
-                />
-                <Song
-                    _id='asdfasddfa'
-                    album='Gravity'
-                    artist='Lecrea'
-                    createdAt={new Date()}
-                    genre='Hip Hop'
-                    title='Gravity'
-                    onClick={()=>{handleSongOpen("asdfasddfa")}}
-                />
+                {data&&data.map((song)=>(
+                    <Song
+                        key={song._id}
+                        _id={song._id}
+                        album={song.album}
+                        artist={song.artist}
+                        createdAt={new Date(song.createdAt)}
+                        genre={song.genre}
+                        title={song.title}
+                        onClick={()=>{handleSongOpen(song._id)}}
+                    />
+                ))}
+                
             </SongList>
         </>
     );

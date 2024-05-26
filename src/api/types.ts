@@ -38,7 +38,7 @@ export interface TErrorRes{
 
 export interface TPagination{
     skip:number,
-    limit:string,
+    limit:number,
 }
 export type TCreateSong = Omit<TSong,"_id"|"createdAt"|"updatedAt">;
 export type TUpdateSong = Optional<TCreateSong>;

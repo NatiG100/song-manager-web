@@ -1,6 +1,6 @@
-import Resource from "./Resource";
-import { TCreateSong, TErrorRes, TListResponse, TPagination, TResponse, TSong, TUpdateSong } from "./types";
-import axiosClient from "./axiosClient";
+import Resource from "./Resource.ts";
+import { TCreateSong, TErrorRes, TListResponse, TPagination, TResponse, TSong, TUpdateSong } from "./types.ts";
+import axiosClient from "./axiosClient.ts";
 
 export default class Song extends Resource{
     async fetchById({id}:{id:string}){
@@ -10,7 +10,7 @@ export default class Song extends Resource{
     }
     async fetchMany({pagination}:{pagination:TPagination}){
         return axiosClient.get<TErrorRes,TListResponse<TSong>>(
-            `${this.path}/?skip=${pagination.skip}&limit=${pagination.limit}`
+            `${this.path}?skip=${pagination.skip}&limit=${pagination.limit}`
         );
     }
     async create({song}:{song:TCreateSong}){
