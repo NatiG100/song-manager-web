@@ -28,13 +28,17 @@ export const statSlice = createSlice({
             state.stat.isLoading = false;
             state.stat.data = null;
         },
+        updateStatAction:(state:StatStateType,{payload:stat}:PayloadAction<TStat>)=>{
+            state.stat.data =stat;
+        }
     }
 });
 
 export const {
     fetchStatAction,
     fetchStatErrorAction,
-    fetchStatSuccesAction
+    fetchStatSuccesAction,
+    updateStatAction,
 } = statSlice.actions;
 
 export default statSlice.reducer;

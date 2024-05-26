@@ -1,13 +1,10 @@
 import songManagerApi from "../../songManagerApi.ts";
-import { TCreateSong, TErrorRes, TListResponse, TPagination, TResponse, TSong, TUpdateSong } from "../../api/types.ts";
-import {call, fork, put, take, takeLatest} from 'redux-saga/effects'
-import { fetchSongErrorAction, fetchSongSuccesAction, fetchSongsAction } from "./slice.ts";
+import { TCreateSong, TErrorRes, TListResponse, TResponse, TSong, TUpdateSong } from "../../api/types.ts";
+import { put, takeLatest} from 'redux-saga/effects'
+import { fetchSongErrorAction, fetchSongSuccesAction } from "./slice.ts";
 import { AxiosResponse } from "axios";
 import { CREATE_SONG, DELETE_SONG, FETCH_SONGS, UPDATE_SONG } from "./types.ts";
 import { PayloadAction } from "@reduxjs/toolkit";
-import { Socket, io } from "socket.io-client";
-import { resolve } from "path";
-import { eventChannel } from "redux-saga";
 
 function* fetchSongsSaga(){
     try{
@@ -53,39 +50,4 @@ export function* deleteSongSaga({payload:options}:PayloadAction<{id:string}>){
 }
 export function* watchDeleteSong(){
     yield takeLatest(DELETE_SONG,deleteSongSaga);
-}
-
-
-function connect(){
-    const socket = io('ws://localhost:4000');
-    return new Promise(resolve=>{
-        socket.on('connect',()=>{
-            resolve(socket);
-        })
-    })
-}
-
-export function* flow(){
-    const socket = yield call(connect);
-    yield fork(read,socket);
-}
-
-function* read(socket:Socket){
-    const channel = yield call(subscribe,socket);
-    while(true){
-        let action = yield take(channel)
-        yield put(action);
-    }
-}
-
-export function* subscribe(socket:Socket){
-    return eventChannel(emit=>{
-        const handler = post=>emit(fetchSongsAction());
-        socket.on('song-created',handler);
-        socket.on('song-updated',handler);
-        socket.on('song-deleted',handler);
-        return()=>{
-
-        }
-    })
 }
